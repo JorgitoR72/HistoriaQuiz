@@ -9,7 +9,7 @@ class SecuriryPermissions {
   canActivate(): any {
     const logged = window.localStorage.getItem('token')
     if (logged) {
-      this.router.navigate(['dashboard'])
+      this.router.navigate(['mini_games'])
       return false
     } else {
       return true
