@@ -12,7 +12,7 @@ export class GamesService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getAllGames(): Observable<any> {
-    return this.http.get<any>(environment.url + 'api/games');
+    return this.http.get<any>(environment.url + 'api/games/shows');
   }
 
   getTypeGames(): Observable<any> {
@@ -20,7 +20,7 @@ export class GamesService {
   }
 
   getGameById(id: number): Observable<any> {
-    return this.http.get<any>(environment.url + 'api/games/' + id);
+    return this.http.get<any>(environment.url + 'api/games/show/' + id);
   }
 
   createGame(game: any): Observable<any> {

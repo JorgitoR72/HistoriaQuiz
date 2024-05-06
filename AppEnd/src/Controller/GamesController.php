@@ -64,8 +64,14 @@ class GamesController extends AbstractController
         $game = new Games();
         $game->setTitle($request->get('title'));
         $game->setDescription($request->get('description'));
-        $game->setTypegame($request->get('typegame'));
-        $game->setUser($request->get('user_id'));
+        
+        // Obtener el objeto Typegame
+        $typegame = $em->getRepository(Typegame::class)->find($request->get('typegame'));
+        $game->setTypegame($typegame);
+        
+        // Asumiendo que 'user_id' es una relación ManyToOne, también necesitas el objeto User
+        $user = $em->getRepository(User::class)->find($request->get('user_id'));
+        $game->setUser($user);
 
         $em->persist($game);
         $em->flush();

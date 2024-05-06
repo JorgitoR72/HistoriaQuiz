@@ -40,17 +40,21 @@ class UserController extends AbstractController
     public function details(Request $request, EntityManagerInterface $entityManager)
     {
         $email = $request->query->get('email');
+        
         $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = [new ObjectNormalizer(null, null, null, null, null, null, ['circular_reference_handler' => function ($object) {
+            return $object->getId();
+        }])];
+        
         $serializer = new Serializer($normalizers, $encoders);
         $repository = $entityManager->getRepository(User::class);
         $user = $repository->findOneBy(['email' => $email]);
-
+    
         // Convertir los objetos Users directamente a JSON
         $jsonContent = $serializer->serialize($user, 'json');
-
+    
         // Crear y devolver una JsonResponse
-        return new JsonResponse($jsonContent, 200, ['status' => 'user_info_byId'], true);
+        return new JsonResponse($jsonContent, 200, [], true);
     }
 
     #[Route('/edit/{id}', name: 'app_user_edit', methods: ['GET', 'POST'])]

@@ -3,11 +3,12 @@ import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../api/segurity/register/register.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, HeaderComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

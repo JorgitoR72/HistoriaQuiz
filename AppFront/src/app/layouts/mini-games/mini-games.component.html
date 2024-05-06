@@ -1,27 +1,24 @@
-@if (formLoaded) {<div>
-    <h2>Crear Nuevo Juego</h2>
-    <form (Submit)="createGame()" [formGroup]="form">
-        <div class="form-group">
-            <label for="title">Título:</label>
-            <input type="text" class="form-control" id="title" formControlName="title">
-        </div>
-        <div class="form-group">
-            <label for="description">Descripción:</label>
-            <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="typegame">Tipo de Juego:</label>
-            <select class="form-control" id="typegame" formControlName="typegame" required>
-                <option value="0" selected>Seleccione</option>
-                @for (type of gameTypes; track type.name) {
-                    <option [value]="type.id">{{ type.name }}</option>
-                }
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Crear Juego</button>
-    </form>
-</div>
 <button (click)="logout()">Cerrar sesión</button>
-} @else {
-    <h1>Cargando....</h1>
-}
+<router-outlet></router-outlet>
+<h1>Lista de Juegos</h1>
+    <table style="border: 1px solid;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Tipo de Juego</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (game of gameList; track game.title){
+                <tr>
+                    <td>{{game.id}}</td>
+                    <td>{{game.title}}</td>
+                    <td>{{game.description}}</td>
+                    <td>hola</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+<button routerLink="/mini_games/create" routerLinkActive="active">Crear</button>

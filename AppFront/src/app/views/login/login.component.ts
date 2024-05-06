@@ -5,11 +5,12 @@ import { UserService } from '../../api/user/user.service';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, HeaderComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

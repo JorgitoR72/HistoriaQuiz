@@ -1,0 +1,26 @@
+@if (formLoaded) {<div>
+    <h2>Crear Nuevo Juego</h2>
+    <form (submit)="createGame()" [formGroup]="form">
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" class="form-control" id="title" formControlName="title">
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="typegame">Tipo de Juego:</label>
+            <select class="form-control" id="typegame" formControlName="typegame" required>
+                <option value="0" selected>Seleccione</option>
+                @for (type of gameTypes; track type.name) {
+                    <option [value]="type.id">{{ type.name }}</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Juego</button>
+    </form>
+</div>
+} @else {
+    <h1>Cargando....</h1>
+}
