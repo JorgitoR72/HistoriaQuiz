@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GamesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +29,18 @@ class Games
     #[ORM\ManyToOne(inversedBy: 'games')]
     #[ORM\JoinColumn(nullable: false)]
     private ?user $user = null;
+
+    #[ORM\OneToMany(targetEntity: Levels::class, mappedBy: 'iid_game')]
+    private Collection $levels;
+
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'id_game')]
+    private Collection $questions;
+
+    public function __construct()
+    {
+        $this->levels = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +91,66 @@ class Games
     public function setUser(?user $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Levels>
+     */
+    public function getLevels(): Collection
+    {
+        return $this->levels;
+    }
+
+    public function addLevel(Levels $level): static
+    {
+        if (!$this->levels->contains($level)) {
+            $this->levels->add($level);
+            $level->setIidGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLevel(Levels $level): static
+    {
+        if ($this->levels->removeElement($level)) {
+            // set the owning side to null (unless already changed)
+            if ($level->getIidGame() === $this) {
+                $level->setIidGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Questions>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Questions $question): static
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setIdGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Questions $question): static
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getIdGame() === $this) {
+                $question->setIdGame(null);
+            }
+        }
 
         return $this;
     }

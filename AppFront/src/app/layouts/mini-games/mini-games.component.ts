@@ -21,12 +21,14 @@ export class MiniGamesComponent {
   }
 
   public gameList: any[] = []
+  public games:  any[] = []
   public formLoaded: boolean = false;
 
   public showGames() {
     this.gamesService.getAllGames().subscribe({
       next: (res) => {
         this.gameList = res;
+        console.log(this.gameList);
         this.formLoaded = true;
         console.log('Juego creado correctamente 3');
       },

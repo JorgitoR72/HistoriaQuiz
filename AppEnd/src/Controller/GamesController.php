@@ -28,7 +28,7 @@ class GamesController extends AbstractController
                 'id' => $game->getId(),
                 'title' => $game->getTitle(),
                 'description' => $game->getDescription(),
-                'typegame' => $game->getTypegame(),
+                'typegame' => $game->getTypegame()->getName(),
                 'user_id' => $game->getUser()->getId(),
             ];
         }
