@@ -30,10 +30,10 @@ class Games
     #[ORM\JoinColumn(nullable: false)]
     private ?user $user = null;
 
-    #[ORM\OneToMany(targetEntity: Levels::class, mappedBy: 'iid_game')]
+    #[ORM\OneToMany(targetEntity: Levels::class, mappedBy: 'id_game')]
     private Collection $levels;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'id_game')]
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'id_game', cascade: ['persist'])]
     private Collection $questions;
 
     public function __construct()

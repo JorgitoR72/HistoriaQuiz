@@ -11,6 +11,9 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use App\Entity\Games;
+use App\Entity\Answers;
+use App\Entity\Levels;
+use App\Entity\Questions;
 use App\Entity\Typegame;
 use App\Entity\User;
 
@@ -72,12 +75,31 @@ class GamesController extends AbstractController
         // Asumiendo que 'user_id' es una relación ManyToOne, también necesitas el objeto User
         $user = $em->getRepository(User::class)->find($request->get('user_id'));
         $game->setUser($user);
-
+    
+        foreach ($request->get('questions') as $questionData) {
+            $question = new Questions();
+            $question->setContent($questionData['content']);
+            
+            // Obtener el objeto Level
+            $level = $em->getRepository(Levels::class)->find($questionData['level']);
+            $question->setIdLevel($level);
+            
+            $game->addQuestion($question);
+    
+            foreach ($questionData['answers'] as $answerData) {
+                $answer = new Answers();
+                $answer->setContent($answerData['content']);
+                $answer->setCorrect($answerData['correct']);
+                $answer->setQuestion($question);
+                $em->persist($answer);
+            }
+        }
+    
         $em->persist($game);
         $em->flush();
-
+    
         return new JsonResponse(['status' => 'game_created']);
-    }
+    }    
 
     #[Route('/edit/{id}', name: 'app_edit_game', methods: ['PUT'])]
     public function editGame(int $id, Request $request, EntityManagerInterface $em): JsonResponse
@@ -114,13 +136,29 @@ class GamesController extends AbstractController
         return new JsonResponse(['status' => 'game_deleted']);
     }
 
-    #[Route('/typegame', name: 'app_typegame', methods: ['GET'])]
+    #[Route('/typegame', name: 'show_typegame', methods: ['GET'])]
     public function typeGame(EntityManagerInterface $em): JsonResponse
     {
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
         $repository = $em->getRepository(Typegame::class);
+        $typeGames = $repository->findAll();
+
+        // Convertir los objetos Users directamente a JSON
+        $jsonContent = $serializer->serialize($typeGames, 'json');
+
+        // Crear y devolver una JsonResponse
+        return new JsonResponse($jsonContent, 200, ['status' => 'type_game'], true);
+    }
+
+    #[Route('/level', name: 'show_level', methods: ['GET'])]
+    public function level(EntityManagerInterface $em): JsonResponse
+    {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $repository = $em->getRepository(Levels::class);
         $typeGames = $repository->findAll();
 
         // Convertir los objetos Users directamente a JSON

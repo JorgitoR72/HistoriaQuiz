@@ -13,14 +13,45 @@
             <label for="typegame">Tipo de Juego:</label>
             <select class="form-control" id="typegame" formControlName="typegame" required>
                 <option value="0" selected>Seleccione</option>
-                @for (type of gameTypes; track type.name) {
-                    <option [value]="type.id">{{ type.name }}</option>
-                }
+                <option *ngFor="let type of gameTypes" [value]="type.id">{{ type.name }}</option>
             </select>
         </div>
+
+        <div formArrayName="questions">
+            <div *ngFor="let questionGroup of questions.controls; let i = index" [formGroupName]="i">
+                <hr>
+                <div class="form-group">
+                    <label for="content">Contenido de la pregunta {{ i + 1 }}:</label>
+                    <textarea class="form-control" id="content" rows="3" formControlName="content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="level">Nivel de la pregunta {{ i + 1 }}:</label>
+                    <select class="form-control" id="level" formControlName="level" required>
+                        <option value="0" selected>Seleccione</option>
+                        <option *ngFor="let level of levels" [value]="level.id">{{ level.name }}</option>
+                    </select>
+                    <p>{{ levels[i].description }}</p>
+                </div>
+                <div formArrayName="answers">
+                    <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j"
+                        class="form-group">
+                        <input type="text" class="form-control" formControlName="content"
+                            [placeholder]="'Respuesta ' + getAnswerLetter(j)">
+                        <label>
+                            <input type="checkbox" formControlName="correct">
+                            Correcta
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <button type="button" class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar Pregunta</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
+        <hr>
         <button type="submit" class="btn btn-primary">Crear Juego</button>
     </form>
 </div>
 } @else {
-    <h1>Cargando....</h1>
+<h1>Cargando....</h1>
 }

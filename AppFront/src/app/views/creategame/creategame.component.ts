@@ -1,40 +1,77 @@
 import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { GamesService } from '../../api/games/games.service';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-creategame',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './creategame.component.html',
   styleUrl: './creategame.component.css'
 })
 export class CreategameComponent {
-  constructor( private gamesService: GamesService ) {
+  user: any;
+  formLoaded: boolean = false;
+  gameTypes: any[] = [];
+  levels: any[] = [];
+  form: FormGroup;
+
+  constructor(
+    private gamesService: GamesService,
+    private formBuilder: FormBuilder
+  ) {
     this.getUserData();
+    this.form = this.formBuilder.group({
+      title: [''],
+      description: [''],
+      typegame: [''],
+      questions: this.formBuilder.array([])
+    });
   }
 
-  public user: any
-  public formLoaded: boolean = false;
+  ngOnInit(): void {
+    this.getGameTypes();
+    this.getLevels();
+  }
 
-  public getUserData() {
+  getUserData() {
     const userJSON: any = window.localStorage.getItem('user');
     this.user = JSON.parse(userJSON)
   }
 
-  protected form: FormGroup = new FormGroup({
-    title: new FormControl(''),
-    description: new FormControl(''),
-    typegame: new FormControl('')
-  });
+  getGameTypes() {
+    this.gamesService.getTypeGames().subscribe({
+      next: (res) => {
+        this.gameTypes = res;
+        this.formLoaded = true;
+      },
+      error: (error) => {
+        console.error(error);
+        alert('Error al obtener los tipos de juego');
+      }
+    });
+  }
 
-  public createGame() {
+  getLevels() {
+    this.gamesService.getLevels().subscribe({
+      next: (res) => {
+        this.levels = res;
+      },
+      error: (error) => {
+        console.error(error);
+        alert('Error al obtener los tipos de juego');
+      }
+    });
+  }
+
+  createGame() {
     let game = this.form.value;
-    game.user_id = this.user.id
+    game.user_id = this.user.id;
     this.gamesService.createGame(game).subscribe({
       next: (res) => {
         console.log(res);
-        alert('Juego creado correctamente 1');
+        alert('Juego creado correctamente');
       },
       error: (error) => {
         console.error(error);
@@ -43,22 +80,41 @@ export class CreategameComponent {
     });
   }
 
-  public gameTypes: any[] = []
-  public getGameTypes() {
-    this.gamesService.getTypeGames().subscribe({
-      next: (res) => {
-        this.gameTypes = res;
-        this.formLoaded = true;
-        console.log('Juego creado correctamente 2');
-      },
-      error: (error) => {
-        console.log(error);
-        console.log('Error al crear el juego');
-      }
+  addQuestion() {
+    const questionGroup = this.formBuilder.group({
+      content: [''],
+      level: [''],
+      answers: this.formBuilder.array([
+        this.createAnswer(),
+        this.createAnswer(),
+        this.createAnswer(),
+        this.createAnswer()
+      ])
+    });
+
+    this.questions.push(questionGroup);
+  }
+
+  createAnswer() {
+    return this.formBuilder.group({
+      content: [''],
+      correct: [false]
     });
   }
 
-  ngOnInit(): void {
-    this.getGameTypes();
+  deleteQuestion(index: number) {
+    this.questions.removeAt(index);
+  }
+
+  get questions() {
+    return this.form.get('questions') as FormArray;
+  }
+
+  getAnswers(questionIndex: number) {
+    return (this.questions.controls[questionIndex] as FormGroup).get('answers') as FormArray;
+  }
+
+  getAnswerLetter(index: number): string {
+    return String.fromCharCode(65 + index);
   }
 }

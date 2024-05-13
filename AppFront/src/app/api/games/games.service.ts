@@ -19,6 +19,10 @@ export class GamesService {
     return this.http.get<any>(environment.url + 'api/games/typegame');
   }
 
+  getLevels(): Observable<any> {
+    return this.http.get<any>(environment.url + 'api/games/level');
+  }
+
   getGameById(id: number): Observable<any> {
     return this.http.get<any>(environment.url + 'api/games/show/' + id);
   }
