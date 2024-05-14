@@ -3,12 +3,11 @@ import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../api/segurity/register/register.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, HeaderComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -20,18 +19,26 @@ export class RegisterComponent {
     password: new FormControl('')
   })
 
+  loading: boolean = false;
+
   public logReg() {
+    this.loading = true;
     let user = this.form.value;
-    this.registerService.register(user).subscribe((res: any) => {
-      if (typeof res.token === 'string') {
-        window.localStorage.setItem('token', res.token);
-        window.localStorage.setItem('user', JSON.stringify(res.user));
-        this.router.navigate(['mini_games']);
-      } else {
-        this.router.navigate(['security']);
+    this.registerService.register(user).subscribe({
+      next: (res: any) => {
+        if (typeof res.token === 'string') {
+          window.localStorage.setItem('token', res.token);
+          window.localStorage.setItem('user', JSON.stringify(res.user));
+          this.router.navigate(['security']);
+        } else {
+          this.loading = false;
+          this.router.navigate(['security']);
+        }
+      },
+      error: (error: any) => {
+        console.error("Error:", error);
+        this.loading = false;
       }
-    }, error => {
-      console.error("Error:", error);
     });
   }
 }

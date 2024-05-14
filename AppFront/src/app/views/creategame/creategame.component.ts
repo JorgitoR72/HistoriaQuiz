@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { GamesService } from '../../api/games/games.service';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-creategame',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor],
+  imports: [ReactiveFormsModule],
   templateUrl: './creategame.component.html',
   styleUrl: './creategame.component.css'
 })
@@ -116,5 +115,12 @@ export class CreategameComponent {
 
   getAnswerLetter(index: number): string {
     return String.fromCharCode(65 + index);
+  }
+
+  levelDescription: string = '';
+  getLevelDescription(event: any) {
+    const levelId = event.target.value;
+    const level = this.levels.find(level => level.id === levelId);
+    this.levelDescription = level ? level.description : '';
   }
 }

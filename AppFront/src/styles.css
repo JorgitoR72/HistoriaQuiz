@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #f2ecce;
+}
+
+.btn-primary {
+    background-color: #d9946c !important;
+    border-color: #591902 !important;
+    color: #f2ecce !important;
+}
+
+.btn-primary:hover {
+    background-color: #a66249 !important;
+    border-color: #591902 !important;
+    color: #f2ecce !important;
+}
+
+.bg-img {
+    background-image: url("assets/img/fondo_login.jpeg");
+    background-color: #fffbd5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-imgp {
+    background-image: url("assets/img/fondo_login1.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.bg-imgs {
+    background-image: url("assets/img/fondo_login2.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+/* Tamaño pequeño (sm) */
+@media (min-width: 576px) {
+    /* Estilos para dispositivos con un ancho mínimo de 576px */
+    .bg-img {
+        padding-top: 40px;
+        height: 150vh;
+    }
+  }
+  
+  /* Tamaño mediano (md) */
+  @media (min-width: 768px) {
+    /* Estilos para dispositivos con un ancho mínimo de 768px */
+    .bg-img {
+        padding-top: 50px;
+        height: 120vh;
+    }
+  }
+  
+  /* Tamaño grande (lg) */
+  @media (min-width: 992px) {
+    /* Estilos para dispositivos con un ancho mínimo de 992px */
+    .bg-img {
+        padding-top: 120px;
+        height: 100vh;
+    }
+  }
