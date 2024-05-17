@@ -1,84 +1,92 @@
-@if (formLoaded) {<div>
-    <h2>Crear Nuevo Juego</h2>
-    <form (submit)="createGame()" [formGroup]="form">
-        <div class="form-group">
-            <label for="title">Título:</label>
-            <input type="text" class="form-control" id="title" formControlName="title">
-        </div>
-        <div class="form-group">
-            <label for="description">Descripción:</label>
-            <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="typegame">Tipo de Juego:</label>
-            <select class="form-control" id="typegame" formControlName="typegame" required>
-                <option value="3" selected>Seleccione</option>
-                @for (type of gameTypes; track type.id) {
-                <option [value]="type.id">{{ type.name }}</option>
-                }
-            </select>
-        </div>
-
-        <div formArrayName="questions">
-            @for (questionGroup of questions.controls; track questionGroup; let i = $index) {
-            <div [formGroupName]="i">
-                <hr>
-                <div class="form-group">
-                    <label for="content">Contenido de la pregunta {{ i + 1 }}:</label>
-                    <textarea class="form-control" id="content" rows="3" formControlName="content"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="level">Nivel de la pregunta {{ i + 1 }}:</label>
-                    <select class="form-control" id="level" formControlName="level" required>
-                        <option value="4" selected>Seleccione</option>
-                        @for (level of levels; track level.id) {
-                        <option [value]="level.id">{{ level.name }}: {{ level.description }}</option>
-                        }
-                    </select>
-                </div>
-                <div formArrayName="answers">
-                    @for (answer of getAnswers(i).controls; track answer; let j = $index) {
-                    <div [formGroupName]="j" class="form-group">
-                        <input type="text" class="form-control" formControlName="content"
-                            [placeholder]="'Respuesta ' + getAnswerLetter(j)">
-                        <label>
-                            <input type="checkbox" formControlName="correct">
-                            Correcta
-                        </label>
-                    </div>
-                    }
-                </div>
-                <hr>
-                <button type="button" class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar Pregunta</button>
+<div class="position-relative">
+    <img src="../../../assets/img/marco_sup.png" alt="" class="z-n1 position-absolute top-0 start-0">
+    @if (formLoaded) {
+    <div style="padding: 80px 120px 80px 120px;">
+        <h2>Crear Nuevo Juego</h2>
+        <form (submit)="createGame()" [formGroup]="form">
+            <div class="form-group">
+                <label for="title">Título:</label>
+                <input type="text" class="form-control" id="title" formControlName="title">
             </div>
-            }
-        </div>
-        <button type="button" class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
-        <hr>
-        <button type="submit" class="btn btn-primary">Crear Juego</button>
-        <button routerLink="/mini_games" routerLinkActive="active">Cancelar</button>
-    </form>
-</div>
-<!--piramide-->
-<div class="pyramid-container">
-    <h2>Pyramid</h2>
-    <div class="pyramid">
-        @for (part of pyramidParts; track part){
-      <div [class.visible]="part.isVisible" [ngStyle]="{ 
+            <div class="form-group">
+                <label for="description">Descripción:</label>
+                <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="typegame">Tipo de Juego:</label>
+                <select class="form-control" id="typegame" formControlName="typegame" required>
+                    <option value="3" selected>Seleccione</option>
+                    @for (type of gameTypes; track type.id) {
+                    <option [value]="type.id">{{ type.name }}</option>
+                    }
+                </select>
+            </div>
+
+            <div formArrayName="questions">
+                @for (questionGroup of questions.controls; track questionGroup; let i = $index) {
+                <div [formGroupName]="i">
+                    <hr>
+                    <div class="form-group">
+                        <label for="content">Contenido de la pregunta {{ i + 1 }}:</label>
+                        <textarea class="form-control" id="content" rows="3" formControlName="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="level">Nivel de la pregunta {{ i + 1 }}:</label>
+                        <select class="form-control" id="level" formControlName="level" required>
+                            <option value="4" selected>Seleccione</option>
+                            @for (level of levels; track level.id) {
+                            <option [value]="level.id">{{ level.name }}: {{ level.description }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div formArrayName="answers">
+                        @for (answer of getAnswers(i).controls; track answer; let j = $index) {
+                        <div [formGroupName]="j" class="form-group">
+                            <input type="text" class="form-control" formControlName="content"
+                                [placeholder]="'Respuesta ' + getAnswerLetter(j)">
+                            <label>
+                                <input type="checkbox" formControlName="correct">
+                                Correcta
+                            </label>
+                        </div>
+                        }
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar Pregunta</button>
+                </div>
+                }
+            </div>
+            <button type="button" class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
+            <hr>
+            <button type="submit" class="btn btn-primary">Crear Juego</button>
+            <button routerLink="/mini_games" routerLinkActive="active">Cancelar</button>
+        </form>
+
+        <!--piramide-->
+        <div class="pyramid-container">
+            <h2>Pyramid</h2>
+            <div class="pyramid">
+                @for (part of pyramidParts; track part){
+                <div [class.visible]="part.isVisible" [ngStyle]="{ 
         'width': part.style.width,
         'border-bottom-width': part.style.height,
         'border-right-width': '12px',
         'border-left-width': '12px'}">
-      </div>
+                </div>
+                }
+            </div>
+            <div>
+                <button (click)="showPart()">Show Part</button>
+                <button (click)="hidePart()">Hide Part</button>
+            </div>
+        </div>
+        <!--piramide-->
+    </div>
+    } @else {
+    <div style="height: 100vh;">
+        <img src="../../../assets/img/icon_carga.gif" alt="Cargando..."
+            class="position-absolute top-50 start-50 translate-middle">
+    </div>
     }
-    </div>
-    <div>
-      <button (click)="showPart()">Show Part</button>
-      <button (click)="hidePart()">Hide Part</button>
-    </div>
-  </div>  
-<!--piramide-->
-} @else {
-<img src="../../../assets/img/icon_carga.gif" alt="Cargando..."
-    class="position-absolute top-50 start-50 translate-middle">
-}
+    <img src="../../../assets/img/marco_inf.png" alt="" class="z-n1 position-absolute bottom-0 end-0">
+</div>

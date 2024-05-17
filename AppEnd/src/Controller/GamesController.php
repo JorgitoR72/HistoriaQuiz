@@ -39,13 +39,30 @@ class GamesController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/show/{id}', name: 'app_show_game', methods: ['GET'])]
+    #[Route('/showGame/{id}', name: 'app_show_game', methods: ['GET'])]
     public function showGame(int $id, EntityManagerInterface $em): JsonResponse
     {
         $game = $em->getRepository(Games::class)->find($id);
 
         if (!$game) {
-            return new JsonResponse(['status' => 'error', 'message' => 'Game not found1'], JsonResponse::HTTP_NOT_FOUND);
+            return new JsonResponse(['status' => 'error', 'message' => 'Game not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $questions = [];
+        foreach ($game->getQuestions() as $question) {
+            $answers = [];
+            foreach ($question->getAnswers() as $answer) {
+                $answers[] = [
+                    'id' => $answer->getId(),
+                    'content' => $answer->getContent(),
+                    'correct' => $answer->getCorrect()
+                ];
+            }
+            $questions[] = [
+                'id' => $question->getId(),
+                'content' => $question->getContent(),
+                'answers' => $answers
+            ];
         }
 
         $data = [
@@ -54,6 +71,7 @@ class GamesController extends AbstractController
             'description' => $game->getDescription(),
             'typegame' => $game->getTypegame(),
             'user_id' => $game->getUser()->getId(),
+            'questions' => $questions
         ];
 
         return new JsonResponse($data);
@@ -151,6 +169,8 @@ class GamesController extends AbstractController
         // Crear y devolver una JsonResponse
         return new JsonResponse($jsonContent, 200, ['status' => 'type_game'], true);
     }
+
+
 
     #[Route('/level', name: 'show_level', methods: ['GET'])]
     public function level(EntityManagerInterface $em): JsonResponse
