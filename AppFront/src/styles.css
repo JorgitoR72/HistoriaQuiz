@@ -1,5 +1,5 @@
 body {
-    background-color: #f2ecce;
+    background-color: #f2ecce !important;
 }
 
 .btn-primary {
@@ -36,29 +36,49 @@ body {
     background-position: center;
 }
 
+.bg-imgr {
+    background-image: url("assets/img/fondo_list.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    height: 100vh;
+}
+
+/* Tamaño pequeño (xs) */
+@media (min-width: 320px) {
+    /* Estilos para dispositivos con un ancho mínimo de 320px */
+    .bg-img {
+        padding-top: 85px;
+        height: 100vh;
+    }
+}
+
 /* Tamaño pequeño (sm) */
 @media (min-width: 576px) {
+
     /* Estilos para dispositivos con un ancho mínimo de 576px */
     .bg-img {
-        padding-top: 40px;
+        padding-top: 85px;
         height: 150vh;
     }
-  }
-  
-  /* Tamaño mediano (md) */
-  @media (min-width: 768px) {
+}
+
+/* Tamaño mediano (md) */
+@media (min-width: 768px) {
+
     /* Estilos para dispositivos con un ancho mínimo de 768px */
     .bg-img {
-        padding-top: 50px;
+        padding-top: 80px;
         height: 120vh;
     }
-  }
-  
-  /* Tamaño grande (lg) */
-  @media (min-width: 992px) {
+}
+
+/* Tamaño grande (lg) */
+@media (min-width: 992px) {
+
     /* Estilos para dispositivos con un ancho mínimo de 992px */
     .bg-img {
         padding-top: 120px;
         height: 100vh;
     }
-  }
+}

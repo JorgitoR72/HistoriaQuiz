@@ -1,0 +1,33 @@
+<div class="container-fluid bg-imgr">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="row justify-content-center align-items-center mt-5 ms-3 me-3">
+                <h2 class="col-lg-8 mt-5">Juegos Disponibles</h2>
+                <button (click)="logout()" class="btn mt col-lg-4 text-end mt-5"><img
+                        src="../../../assets/img/icon_cerrar_sesión.png" alt="" width="40px"> Cerrar sesión</button>
+                @for (game of pagedGameList; track game.title) {
+                <div class="card text-center col-lg-11 m-2">
+                    <div class="card-header">
+                        {{game.title}} (#{{game.id}})
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{game.description}}<br>Tipo: {{game.typegame}}</p>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        <a href="#" class="btn btn-primary">Jugar</a>
+                    </div>
+                </div>
+                }
+                <div class="col-lg-4">
+                    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+                    @for(page of pages; track page){
+                    <button (click)="setPage(page)" [class.active]="currentPage === page">{{ page }}</button>
+                    }
+                    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+                </div>
+                <button class="btm btn-primary col-lg-3" routerLink="/mini_games/create"
+                    routerLinkActive="active">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { MiniGamesComponent } from './layouts/mini-games/mini-games.component';
 import { CreategameComponent } from './views/creategame/creategame.component';
+import { UpdategameComponent } from './views/updategame/updategame.component';
+import { ListgameComponent } from './views/listgame/listgame.component';
 
 export const routes: Routes = [
   { 
@@ -16,7 +18,7 @@ export const routes: Routes = [
     canActivate: [minigamesaccesGuard],
     children: [
       {
-        path: '', redirectTo: '', pathMatch: 'full',
+        path: '', redirectTo: 'list', pathMatch: 'full',
       },
       {
         path: 'create',
@@ -24,11 +26,11 @@ export const routes: Routes = [
       },
       {
         path: 'update',
-        component: LoginComponent
+        component: UpdategameComponent
       },
       {
         path: 'list',
-        component: LoginComponent
+        component: ListgameComponent
       }
     ]
   },
