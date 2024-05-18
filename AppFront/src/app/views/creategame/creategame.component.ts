@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { GamesService } from '../../api/games/games.service';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { PyramidPart } from '../../interfaces/pyramidpart';
-import { NgStyle } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-creategame',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive, NgStyle],
+  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
   templateUrl: './creategame.component.html',
   styleUrl: './creategame.component.css'
 })
@@ -18,9 +16,9 @@ export class CreategameComponent {
   gameTypes: any[] = [];
   levels: any[] = [];
   form: FormGroup;
-  pyramidParts: PyramidPart[] = []
 
   constructor(
+    private router: Router,
     private gamesService: GamesService,
     private formBuilder: FormBuilder
   ) {
@@ -31,7 +29,6 @@ export class CreategameComponent {
       typegame: [''],
       questions: this.formBuilder.array([])
     });
-    this.initializePyramid(20, 25, 25);
   }
 
   ngOnInit(): void {
@@ -76,6 +73,7 @@ export class CreategameComponent {
       next: (res) => {
         console.log(res);
         alert('Juego creado correctamente');
+        return this.router.navigate(['list']);
       },
       error: (error) => {
         console.error(error);
@@ -127,34 +125,5 @@ export class CreategameComponent {
     const levelId = event.target.value;
     const level = this.levels.find(level => level.id === levelId);
     this.levelDescription = level ? level.description : '';
-  }
-  
-  initializePyramid(numParts: number, width = 100, height = 100): void {
-    this.pyramidParts = [];
-    for (let i = 1; i <= numParts; i++) {
-      this.pyramidParts.push({
-        style: {
-          width: `${i * width}px`,
-          height: `${height}px`
-        },
-        isVisible: false
-      });
-    }
-  }
-
-  showPart(): void {
-    const hiddenPart = this.pyramidParts.find(part => !part.isVisible);
-    if (hiddenPart) {
-      hiddenPart.isVisible = true;
-      console.log(hiddenPart);
-    }
-  }
-
-  hidePart(): void {
-    const visiblePart = this.pyramidParts.find(part => part.isVisible);
-    if (visiblePart) {
-      visiblePart.isVisible = false;
-      console.log(visiblePart);
-    }
   }
 }

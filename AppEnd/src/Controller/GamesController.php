@@ -85,25 +85,23 @@ class GamesController extends AbstractController
         $game = new Games();
         $game->setTitle($request->get('title'));
         $game->setDescription($request->get('description'));
-        
-        // Obtener el objeto Typegame
+
         $typegame = $em->getRepository(Typegame::class)->find($request->get('typegame'));
         $game->setTypegame($typegame);
-        
-        // Asumiendo que 'user_id' es una relación ManyToOne, también necesitas el objeto User
+
         $user = $em->getRepository(User::class)->find($request->get('user_id'));
         $game->setUser($user);
-    
+
         foreach ($request->get('questions') as $questionData) {
             $question = new Questions();
             $question->setContent($questionData['content']);
-            
+
             // Obtener el objeto Level
             $level = $em->getRepository(Levels::class)->find($questionData['level']);
             $question->setIdLevel($level);
-            
+
             $game->addQuestion($question);
-    
+
             foreach ($questionData['answers'] as $answerData) {
                 $answer = new Answers();
                 $answer->setContent($answerData['content']);
@@ -112,12 +110,12 @@ class GamesController extends AbstractController
                 $em->persist($answer);
             }
         }
-    
+
         $em->persist($game);
         $em->flush();
-    
+
         return new JsonResponse(['status' => 'game_created']);
-    }    
+    }
 
     #[Route('/edit/{id}', name: 'app_edit_game', methods: ['PUT'])]
     public function editGame(int $id, Request $request, EntityManagerInterface $em): JsonResponse
@@ -169,8 +167,6 @@ class GamesController extends AbstractController
         // Crear y devolver una JsonResponse
         return new JsonResponse($jsonContent, 200, ['status' => 'type_game'], true);
     }
-
-
 
     #[Route('/level', name: 'show_level', methods: ['GET'])]
     public function level(EntityManagerInterface $em): JsonResponse

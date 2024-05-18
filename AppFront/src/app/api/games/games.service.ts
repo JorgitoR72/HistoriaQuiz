@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Game } from '../../interfaces/game.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,6 +11,10 @@ import { environment } from '../../../environments/environment';
 export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  getPlayGame(id: number): Observable<Game> {
+    return this.http.get<Game>(environment.url + 'api/games/showGame/' + id);
+  }
 
   getAllGames(): Observable<any> {
     return this.http.get<any>(environment.url + 'api/games/shows');

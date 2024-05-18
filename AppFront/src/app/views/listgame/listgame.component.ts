@@ -11,9 +11,7 @@ import { LogoutService } from '../../api/segurity/logout/logout.service';
   styleUrl: './listgame.component.css'
 })
 export class ListgameComponent {
-  constructor(private gamesService: GamesService, public logoutSecurityService: LogoutService) {
-
-  }
+  constructor(private gamesService: GamesService, public logoutSecurityService: LogoutService) {}
 
   public logout() {
     this.logoutSecurityService.logOut();

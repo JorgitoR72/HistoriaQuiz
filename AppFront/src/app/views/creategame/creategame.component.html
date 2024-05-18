@@ -61,26 +61,6 @@
             <button type="submit" class="btn btn-primary">Crear Juego</button>
             <button routerLink="/mini_games" routerLinkActive="active">Cancelar</button>
         </form>
-
-        <!--piramide-->
-        <div class="pyramid-container">
-            <h2>Pyramid</h2>
-            <div class="pyramid">
-                @for (part of pyramidParts; track part){
-                <div [class.visible]="part.isVisible" [ngStyle]="{ 
-        'width': part.style.width,
-        'border-bottom-width': part.style.height,
-        'border-right-width': '12px',
-        'border-left-width': '12px'}">
-                </div>
-                }
-            </div>
-            <div>
-                <button (click)="showPart()">Show Part</button>
-                <button (click)="hidePart()">Hide Part</button>
-            </div>
-        </div>
-        <!--piramide-->
     </div>
     } @else {
     <div style="height: 100vh;">

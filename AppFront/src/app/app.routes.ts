@@ -8,6 +8,7 @@ import { MiniGamesComponent } from './layouts/mini-games/mini-games.component';
 import { CreategameComponent } from './views/creategame/creategame.component';
 import { UpdategameComponent } from './views/updategame/updategame.component';
 import { ListgameComponent } from './views/listgame/listgame.component';
+import { PlaygameComponent } from './views/playgame/playgame.component';
 
 export const routes: Routes = [
   { 
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'list',
         component: ListgameComponent
+      },
+      {
+        path: 'play',
+        component: PlaygameComponent
       }
     ]
   },
