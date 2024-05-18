@@ -33,7 +33,7 @@ class Games
     #[ORM\OneToMany(targetEntity: Levels::class, mappedBy: 'id_game')]
     private Collection $levels;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'id_game', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'id_game', cascade: ['remove', 'persist'])]
     private Collection $questions;
 
     public function __construct()

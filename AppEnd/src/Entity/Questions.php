@@ -27,7 +27,7 @@ class Questions
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'Question', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'Question', cascade: ['remove', 'persist'])]
     private Collection $answers;
 
     public function __construct()

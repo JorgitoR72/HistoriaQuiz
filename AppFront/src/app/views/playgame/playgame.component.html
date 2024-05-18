@@ -1,36 +1,36 @@
-<!-- src/app/quiz/quiz.component.html -->
-<div *ngIf="!isGameOver">
-    <h2>{{ game.title }}</h2>
-    <p>{{ game.description }}</p>
-    <div *ngIf="questions[currentQuestionIndex]">
-        <h3>{{ questions[currentQuestionIndex].content }}</h3>
-        <ul>
-            <li *ngFor="let answer of questions[currentQuestionIndex].answers">
-                <input type="radio" name="answer" (click)="selectedAnswer = answer"> {{ answer.content }}
-            </li>
-        </ul>
-        <button (click)="answerQuestion()">Submit</button>
-    </div>
-    <p>Attempts left: {{ attempts }}</p>
-    <p>Score: {{ score }}</p>
-
-     <!--piramide-->
-     <div class="pyramid-container">
-        <h2>Pyramid</h2>
-        <div class="pyramid">
-            @for (part of pyramidParts; track part){
-            <div [class.visible]="part.isVisible" [ngStyle]="{ 
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h2 class="col-lg-12 text-center">{{ game.title }}</h2>
+        <p class="col-lg-12">{{ game.description }}</p>
+        <div class="row col-lg-12 text-center">
+            <h5 class="col-lg-6">Intentos: {{ attempts }}</h5>
+            <h5 class="col-lg-6">Puntos: {{ score }}</h5>
+        </div>
+        <div *ngIf="questions[currentQuestionIndex]" class="col-lg-6">
+            <p class="card">{{ questions[currentQuestionIndex].content }}</p>
+            <ul class="list-group">
+                <li *ngFor="let answer of questions[currentQuestionIndex].answers" class="list-group-item">
+                    <input type="radio" name="answer" (click)="selectedAnswer = answer"> {{ answer.content }}
+                </li>
+            </ul>
+            <button class="btn btn-primary mt-3" (click)="answerQuestion()">Submit</button>
+        </div>
+        <!--piramide-->
+        <div class="pyramid-container col-lg-6">
+            <h2>Contruye la piramide</h2>
+            <div class="pyramid">
+                @for (part of pyramidParts; track part){
+                <div [class.visible]="part.isVisible" [ngStyle]="{ 
     'width': part.style.width,
     'border-bottom-width': part.style.height,
     'border-right-width': '12px',
     'border-left-width': '12px'}">
+                </div>
+                }
             </div>
-            }
         </div>
+        <!--piramide-->
     </div>
-    <!--piramide-->
-</div>
-<div *ngIf="isGameOver">
-    <h2>{{ resultMessage }}</h2>
-    <button (click)="resetGame()">Play Again</button>
+
+    <button class="btn btn-primary mt-3 col-lg-3" (click)="resetGame()">Reiniciar Juego</button>
 </div>

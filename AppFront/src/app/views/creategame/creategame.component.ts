@@ -73,7 +73,7 @@ export class CreategameComponent {
       next: (res) => {
         console.log(res);
         alert('Juego creado correctamente');
-        return this.router.navigate(['list']);
+        return this.router.navigate(['mini_games/list']);
       },
       error: (error) => {
         console.error(error);

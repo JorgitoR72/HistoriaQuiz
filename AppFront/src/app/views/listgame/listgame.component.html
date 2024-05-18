@@ -14,9 +14,9 @@
                         <p class="card-text">{{game.description}}<br>Tipo: {{game.typegame}}</p>
                     </div>
                     <div class="card-footer text-body-secondary">
-                        <a href="#" class="btn btn-primary">Jugar</a>
-                        <a href="#" class="btn btn-primary">Editar</a>
-                        <a href="#" class="btn btn-primary">Eliminar</a>
+                        <button class="btn btn-primary" (click)="playGame(game.id)">Jugar</button>
+                        <button class="btn btn-primary">Editar</button>
+                        <button class="btn btn-primary" (click)="deleteGame(game.id)">Eliminar</button>
                     </div>
                 </div>
                 }

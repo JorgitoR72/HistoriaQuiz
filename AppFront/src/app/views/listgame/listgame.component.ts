@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GamesService } from '../../api/games/games.service';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 import { LogoutService } from '../../api/segurity/logout/logout.service';
 
 @Component({
@@ -11,7 +11,12 @@ import { LogoutService } from '../../api/segurity/logout/logout.service';
   styleUrl: './listgame.component.css'
 })
 export class ListgameComponent {
-  constructor(private gamesService: GamesService, public logoutSecurityService: LogoutService) {}
+  constructor(private gamesService: GamesService, public logoutSecurityService: LogoutService, private router: Router) {}
+
+  playGame(idGame: number) {
+    this.router.navigate(['/mini_games/play']);
+    this.gamesService.enviarDato(idGame);
+  }
 
   public logout() {
     this.logoutSecurityService.logOut();
@@ -23,20 +28,33 @@ export class ListgameComponent {
   public itemsPerPage: number = 2; // Número de elementos por página
   public totalPages: number = 0; // Número total de páginas
   public pages: number[] = []; // Array de números de página
-  public formLoaded: boolean = false;
+  public listLoaded: boolean = false;
 
   public showGames() {
     this.gamesService.getAllGames().subscribe({
       next: (res) => {
         this.gameList = res;
-        this.formLoaded = true;
+        this.listLoaded = true;
         this.totalPages = Math.ceil(this.gameList.length / this.itemsPerPage);
         this.setPage(1);
-        console.log('Juego creado correctamente 3');
       },
       error: (error) => {
         console.log(error);
-        console.log('Error al crear el juego');
+        console.log('Error al mostrar los juego');
+      }
+    });
+  }
+
+  public deleteGame(id: number) {
+    this.gamesService.deleteGame(id).subscribe({
+      next: (res) => {
+        this.showGames();
+        console.log(res);
+        alert('Juego eliminado correctamente');
+      },
+      error: (error) => {
+        console.log(error);
+        alert('Error al eliminar el juego');
       }
     });
   }

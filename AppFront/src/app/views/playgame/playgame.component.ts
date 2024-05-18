@@ -26,7 +26,7 @@ export class PlaygameComponent {
   resultMessage: string = ''; // Mensaje de resultado final
   pyramidParts: PyramidPart[] = [];
 
-  constructor(private gamesService: GamesService) {
+  constructor( private gamesService: GamesService ) {
     this.initializePyramid(5, 50, 50);
   }
 
@@ -140,6 +140,8 @@ export class PlaygameComponent {
   }
 
   ngOnInit(): void {
-    this.loadGame(8);
+    this.gamesService.datoCompartido$.subscribe(idGame => {
+      this.loadGame(idGame);
+    });
   }
 }

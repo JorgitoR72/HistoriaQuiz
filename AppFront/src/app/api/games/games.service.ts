@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Game } from '../../interfaces/game.model';
 import { environment } from '../../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,12 @@ export class GamesService {
 
   deleteGame(id: number): Observable<any> {
     return this.http.delete(environment.url + 'api/games/delete/' + id);
+  }
+
+  private datoCompartidoSource = new BehaviorSubject<number>(0);
+  datoCompartido$ = this.datoCompartidoSource.asObservable();
+
+  enviarDato(idGame: number) {
+    this.datoCompartidoSource.next(idGame);
   }
 }
