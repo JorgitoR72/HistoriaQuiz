@@ -27,7 +27,7 @@ export class PlaygameComponent {
   pyramidParts: PyramidPart[] = [];
 
   constructor( private gamesService: GamesService ) {
-    this.initializePyramid(5, 50, 50);
+    this.initializePyramid(3, 60, 50);
   }
 
   // Cargar el juego desde la API

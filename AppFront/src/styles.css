@@ -2,17 +2,83 @@ body {
     background-color: #f2ecce !important;
 }
 
+/*buttons*/
 .btn-primary {
     background-color: #d9946c !important;
     border-color: #591902 !important;
+    border-width: 1.5px !important;
+    font-weight: 600 !important;
     color: #f2ecce !important;
 }
 
 .btn-primary:hover {
     background-color: #a66249 !important;
-    border-color: #591902 !important;
+    border-color: #f2ecce !important;
+    border-width: 1.5px !important;
+    font-weight: 700 !important;
     color: #f2ecce !important;
 }
+
+.btn-secondary {
+    background-color: #591902 !important;
+    border-color: #591902 !important;
+    border-width: 1.5px !important;
+    font-weight: 600 !important;
+    color: #f2ecce !important;
+}
+
+.btn-secondary:hover {
+    background-color: #591902d0 !important;
+    border-color: #591902 !important;
+    font-weight: 700 !important;
+    color: #f2ecce !important;
+}
+/*buttons*/
+
+/*pagination*/
+.page-link {
+    background-color: #d9946c !important;
+    border-color: #591902 !important;
+    border-width: 2px !important;
+    color: #591902 !important;
+    font-weight: 800;
+}
+
+.page-link:active {
+    background-color: #591902 !important;
+    border-color: #a66249 !important;
+    color: #f2ecce !important;
+}
+
+
+.active > .page-link {
+    background-color: #591902 !important;
+    color: #f2ecce !important;
+}
+/*pagination*/
+
+/*cards*/
+.card {
+    background-color: #f2ecce !important;
+    border-color: #591902 !important;
+    border-width: 2px !important;
+    color: #591902 !important;
+}
+
+.card-header {
+    background-color: #d9946c !important;
+    border-color: #591902 !important;
+    border-width: 2px !important;
+    font-weight: 700;
+    color: #591902 !important;
+}
+
+.card-footer {
+    background-color: #a66249 !important;
+    border-color: #591902 !important;
+    border-width: 2px !important;
+}
+/*cards*/
 
 .bg-img {
     background-image: url("assets/img/fondo_login.jpeg");
@@ -32,7 +98,7 @@ body {
 .bg-imgs {
     background-image: url("assets/img/fondo_login2.png");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 100% 100%;
     background-position: center;
 }
 

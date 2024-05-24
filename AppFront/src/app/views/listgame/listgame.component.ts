@@ -18,6 +18,10 @@ export class ListgameComponent {
     this.gamesService.enviarDato(idGame);
   }
 
+  editGame(idGame: number) {
+    this.router.navigate(['/mini_games/edit', idGame]);
+  }
+
   public logout() {
     this.logoutSecurityService.logOut();
   }

@@ -1,0 +1,22 @@
+textarea {
+    border-width: 2px !important;
+    border-color: #591902 !important;
+}
+
+.st-text {
+    color: #591902;
+}
+
+label {
+    font-weight: 600 !important;
+}
+
+select {
+    border-width: 2px !important;
+    border-color: #591902 !important;
+}
+
+input {
+    border-width: 2px !important;
+    border-color: #591902 !important;
+}

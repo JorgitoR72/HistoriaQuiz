@@ -5,29 +5,50 @@
                 <h2 class="col-lg-8 mt-5">Juegos Disponibles</h2>
                 <button (click)="logout()" class="btn mt col-lg-4 text-end mt-5"><img
                         src="../../../assets/img/icon_cerrar_sesión.png" alt="" width="40px"> Cerrar sesión</button>
+                @if (listLoaded){
                 @for (game of pagedGameList; track game.title) {
-                <div class="card text-center col-lg-11 m-2">
+                <div class="card text-center col-lg-11 m-2 p-0">
                     <div class="card-header">
                         {{game.title}} (#{{game.id}})
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{game.description}}<br>Tipo: {{game.typegame}}</p>
                     </div>
-                    <div class="card-footer text-body-secondary">
-                        <button class="btn btn-primary" (click)="playGame(game.id)">Jugar</button>
-                        <button class="btn btn-primary">Editar</button>
-                        <button class="btn btn-primary" (click)="deleteGame(game.id)">Eliminar</button>
+                    <div class="card-footer p-1">
+                        <div class="row justify-content-evenly align-items-center">
+                            <button class="btn btn-primary col-lg-2 p-1" (click)="playGame(game.id)">Jugar</button>
+                            <button class="btn btn-primary col-lg-2 p-1" (click)="editGame(game.id)">Editar</button>
+                            <button class="btn btn-primary col-lg-2 p-1" (click)="deleteGame(game.id)">Eliminar</button>
+                        </div>
                     </div>
                 </div>
                 }
-                <div class="col-lg-4">
-                    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-                    @for(page of pages; track page){
-                    <button (click)="setPage(page)" [class.active]="currentPage === page">{{ page }}</button>
-                    }
-                    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+                } @else {
+                <div style="height: 60vh;">
+                    <img src="../../../assets/img/icon_carga.gif" alt="Cargando..."
+                        class="position-absolute top-50 start-50 translate-middle">
                 </div>
-                <button class="btm btn-primary col-lg-3" routerLink="/mini_games/create"
+                }
+                <nav class="col-lg-8" aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item" [class.disabled]="currentPage === 1">
+                            <button class="page-link" aria-label="Previous" (click)="previousPage()">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </li>
+                        @for(page of pages; track page){
+                        <li class="page-item" [class.active]="currentPage === page">
+                            <button class="page-link" (click)="setPage(page)">{{ page }}</button>
+                        </li>
+                        }
+                        <li class="page-item" [class.disabled]="currentPage === totalPages">
+                            <button class="page-link" aria-label="Next" (click)="nextPage()">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <button class="btn btn-secondary col-lg-3 mb-3" routerLink="/mini_games/create"
                     routerLinkActive="active">Crear</button>
             </div>
         </div>
