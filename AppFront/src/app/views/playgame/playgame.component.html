@@ -1,36 +1,46 @@
-<div class="container">
-    <div class="row justify-content-center align-items-center">
+<div class="container-fluid br-img">
+    @if (isGameOver) {
+    <div class="row justify-content-center align-items-center" style="min-height: 79vh;">
         <h2 class="col-lg-12 text-center">{{ game.title }}</h2>
-        <p class="col-lg-12">{{ game.description }}</p>
-        <div class="row col-lg-12 text-center">
-            <h5 class="col-lg-6">Intentos: {{ attempts }}</h5>
-            <h5 class="col-lg-6">Puntos: {{ score }}</h5>
-        </div>
-        <div *ngIf="questions[currentQuestionIndex]" class="col-lg-6">
-            <p class="card">{{ questions[currentQuestionIndex].content }}</p>
+        <p class="card col-lg-12 p-3">{{ questions[currentQuestionIndex].content }}</p>
+        <div class="col-lg-6">
             <ul class="list-group">
-                <li *ngFor="let answer of questions[currentQuestionIndex].answers" class="list-group-item">
+                @for (answer of questions[currentQuestionIndex].answers; track answer){
+                <li class="list-group-item">
                     <input type="radio" name="answer" (click)="selectedAnswer = answer"> {{ answer.content }}
                 </li>
+                }
             </ul>
             <button class="btn btn-primary mt-3" (click)="answerQuestion()">Submit</button>
         </div>
-        <!--piramide-->
-        <div class="pyramid-container col-lg-6">
-            <h2>Contruye la piramide</h2>
-            <div class="pyramid">
-                @for (part of pyramidParts; track part){
-                <div [class.visible]="part.isVisible" [ngStyle]="{ 
-    'width': part.style.width,
-    'border-bottom-width': part.style.height,
-    'border-right-width': '12px',
-    'border-left-width': '12px'}">
+        <div class="row col-lg-6 text-center">
+            <h5 class="col-lg-6">Intentos: {{ attempts }}</h5>
+            <h5 class="col-lg-6">Puntos: {{ score }}</h5>
+            <!--piramide-->
+            <div class="pyramid-container col-lg-12">
+                <h2>Contruye la piramide</h2>
+                <div class="pyramid">
+                    @for (part of pyramidParts; track part){
+                    <div [class.visible]="part.isVisible" [ngStyle]="{ 
+                    'width': part.style.width,
+                    'border-bottom-width': part.style.height,
+                    'border-right-width': '12px',
+                    'border-left-width': '12px'}">
+                    </div>
+                    }
                 </div>
-                }
             </div>
+            <!--piramide-->
+            <p class="col-lg-12">{{ game.description }}</p>
         </div>
-        <!--piramide-->
     </div>
-
+    } @else if(resultMessage != '') {
+    <p>{{ resultMessage }}</p>
     <button class="btn btn-primary mt-3 col-lg-3" (click)="resetGame()">Reiniciar Juego</button>
+    } @else {
+    <div style="min-height: 79vh;">
+        <img src="../../../assets/img/icon_carga.gif" alt="Cargando..."
+            class="position-absolute top-50 start-50 translate-middle">
+    </div>
+    }
 </div>

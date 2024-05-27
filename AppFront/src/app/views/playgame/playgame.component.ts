@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { Answer, Game, Question } from '../../interfaces/game.model';
 import { environment } from '../../../environments/environment';
 import { PyramidPart } from '../../interfaces/pyramidpart';
-import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-playgame',
   standalone: true,
-  imports: [NgFor, NgIf, NgStyle],
+  imports: [NgStyle],
   templateUrl: './playgame.component.html',
   styleUrl: './playgame.component.css'
 })
@@ -26,13 +26,14 @@ export class PlaygameComponent {
   resultMessage: string = ''; // Mensaje de resultado final
   pyramidParts: PyramidPart[] = [];
 
-  constructor( private gamesService: GamesService ) {
+  constructor(private gamesService: GamesService) {
     this.initializePyramid(3, 60, 50);
   }
 
   // Cargar el juego desde la API
   loadGame(gameId: number) {
     this.gamesService.getPlayGame(gameId).subscribe(game => {
+      this.isGameOver = true;
       this.game = game;
       this.questions = this.shuffleArray([...game.questions]);
       this.loadQuestion();
@@ -71,18 +72,20 @@ export class PlaygameComponent {
         return;
       }
     } else {
-      if (this.score > 0) {
-        this.hidePart();
-        this.score--;
-      }
-      this.attempts--;
-      if (this.attempts === 0) {
-        this.endGame(false); // Terminar el juego si se agotan los intentos
+      if (this.attempts > 1) { // Verificar si aún quedan intentos
+        if (this.score > 0) {
+          this.hidePart();
+          this.score--;
+        }
+        this.attempts--;
+        // Mover la pregunta actual al array de preguntas falladas
+        const failedQuestion = this.questions.splice(this.currentQuestionIndex, 1)[0];
+        this.failedQuestions.push(failedQuestion);
+      } else if (this.attempts === 1) {
+        console.log('Se agotaron los intentos');
+        this.endGame(false); // Terminar el juego si se agotan los intentos y evitar seguir restando puntos
         return;
       }
-      // Mover la pregunta actual al array de preguntas falladas
-      const failedQuestion = this.questions.splice(this.currentQuestionIndex, 1)[0];
-      this.failedQuestions.push(failedQuestion);
     }
   
     // Verificar si se han contestado todas las preguntas
@@ -96,7 +99,7 @@ export class PlaygameComponent {
   
   // Método para terminar el juego y mostrar el mensaje final
   endGame(won: boolean) {
-    this.isGameOver = true;
+    this.isGameOver = false;
     this.resultMessage = won ? '¡Ganaste!' : '¡Perdiste!';
   }
 

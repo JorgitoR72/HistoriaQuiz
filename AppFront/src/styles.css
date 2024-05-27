@@ -110,6 +110,13 @@ body {
     height: 100vh;
 }
 
+.br-img {
+  border: silver 75px solid;
+  border-image-source: url("assets/img/marco-200.png");
+  border-image-slice: 75;
+  text-align: justify;
+}
+
 /* Tamaño pequeño (xs) */
 @media (min-width: 320px) {
     /* Estilos para dispositivos con un ancho mínimo de 320px */

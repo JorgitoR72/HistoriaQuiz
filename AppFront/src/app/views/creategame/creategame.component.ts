@@ -12,7 +12,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class CreategameComponent {
   user: any;
-  formLoaded: boolean = true;
+  formLoaded: boolean = false;
   gameTypes: any[] = [];
   levels: any[] = [];
   form: FormGroup;
